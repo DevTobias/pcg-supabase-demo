@@ -1,0 +1,44 @@
+{
+  "explorer.fileNesting.patterns": {
+    "package.json": ".infisical.json,.gitignore,.editorconfig,tsconfig.json,eslint.config.ts,crowdin.yml,.env.local,.prettierignore",
+    "next.config.ts": "postcss.config.mjs,next-env.d.ts",
+    "main.tsx": "reset.d.ts,env.d.ts,vite-env.d.ts",
+    "tailwind.config.ts": "postcss.config.js,components.json"
+  },
+  "files.exclude": {
+    "**/bun.lockb": true,
+    "**/.next": true,
+    "**/node_modules": true
+  },
+
+  "explorer.fileNesting.expand": false,
+  "workbench.editor.labelFormat": "short",
+
+  "editor.unicodeHighlight.allowedCharacters": { "️": true },
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+
+  "eslint.workingDirectories": ["frontend"],
+
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+
+  "files.associations": { "*.css": "tailwindcss" },
+
+  "[json][jsonc][html][javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+  }
+}
