@@ -5,6 +5,9 @@ import { GeistSans } from 'geist/font/sans';
 
 import '$/styles/globals.css';
 
+import { ReactQueryClientProvider } from '$/components/core/ReactQueryClientProvider';
+import { Toaster } from '$/components/ui/sonner';
+
 export const metadata: Metadata = {
   title: 'Supabase Demo',
 };
@@ -16,7 +19,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       lang='en'
       suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body>
+        <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+        <Toaster />
+      </body>
     </html>
   );
 }
