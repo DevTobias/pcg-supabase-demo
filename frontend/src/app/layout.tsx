@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 import { GeistSans } from 'geist/font/sans';
 
+import 'overlayscrollbars/overlayscrollbars.css';
 import '$/styles/globals.css';
 
 import { ReactQueryClientProvider } from '$/components/core/ReactQueryClientProvider';

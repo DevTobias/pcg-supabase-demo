@@ -4,18 +4,18 @@ import { useEffect, useRef } from 'react';
 
 import type { Tables } from '$/lib/supabase/@generated/database.types';
 
+import { Scrollable } from '$/components/common/Scrollable';
 import { Button } from '$/components/ui/button';
 import { Input } from '$/components/ui/input';
 import { useAuthenticationStore } from '$/lib/supabase/authentication/useAuthenticationStore';
 import { createClient } from '$/lib/supabase/client';
+import { cn } from '$/lib/utils';
 import { addMessage, messagesQuery } from '$/services/supabase/messages';
 import { fetchUser } from '$/services/supabase/user';
 import { useChannelStore } from '$/views/ChannelPage/store/useChannelStore';
 
 export const Messages = () => {
   const queryClient = useQueryClient();
-
-  const messageScrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const user = useAuthenticationStore((s) => s.user);
@@ -64,21 +64,28 @@ export const Messages = () => {
     };
   }, [channelMessagesQuery.queryKey, queryClient, activeChannelId]);
 
-  useEffect(() => {
-    messageScrollRef.current?.scrollTo(0, messageScrollRef.current.scrollHeight);
-  }, [messages]);
-
   return (
     <div className='grid h-full max-h-screen grid-rows-[1fr_auto] gap-10 p-4'>
-      <div className='flex flex-col gap-2 overflow-auto' ref={messageScrollRef}>
-        {messages.data &&
-          messages.data.map((message) => (
-            <div className='flex flex-col gap-2' key={message.id}>
-              <div className='text-lg font-bold'>{message.author.username}</div>
-              <div>{message.message}</div>
-            </div>
-          ))}
-      </div>
+      <Scrollable
+        className='max-h-screen'
+        overflow={{ x: 'hidden', y: 'scroll' }}
+        scrollDependencies={[messages]}
+        scrollToEnd
+      >
+        <div className='flex flex-col gap-[24px] px-20'>
+          {messages.data &&
+            messages.data.map((message) => {
+              const isOwnMessage = message.author.id === user?.id;
+
+              return (
+                <div className={cn('flex flex-col gap-2', isOwnMessage && 'place-self-end')} key={message.id}>
+                  <div className='text-lg leading-none font-bold'>{message.author.username}</div>
+                  <div className='leading-none'>{message.message}</div>
+                </div>
+              );
+            })}
+        </div>
+      </Scrollable>
 
       <div className='flex w-full gap-2'>
         <Input

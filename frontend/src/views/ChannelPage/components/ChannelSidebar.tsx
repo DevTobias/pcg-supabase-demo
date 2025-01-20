@@ -9,7 +9,7 @@ export const ChannelSidebar = () => {
   const channels = useQuery(channelsQuery);
 
   return (
-    <div className='border-border h-full w-[350px] border-r p-4'>
+    <div className='border-border h-full w-[300px] border-r p-4'>
       <div className='mb-3 text-3xl font-bold'>Channels</div>
 
       <div className='flex flex-col gap-2'>
