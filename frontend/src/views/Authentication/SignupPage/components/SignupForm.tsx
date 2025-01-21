@@ -14,7 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '$/components/ui/form';
 import { Input } from '$/components/ui/input';
 import { cn } from '$/lib/utils';
-import { signUpWithEmail } from '$/services/supabase/authentication';
+import { signInWithProvider, signUpWithEmail } from '$/services/supabase/authentication';
 
 const signupFormSchema = z.object({
   email: z.string({ required_error: 'Required' }).email({ message: 'Invalid email format' }),
@@ -34,6 +34,14 @@ export const SignupForm = ({ className, ...props }: ComponentPropsWithoutRef<'di
       error: (error) => error,
       loading: 'Creating user account...',
       success: 'Signup successful, please check your email to verify your account.',
+    });
+  };
+
+  const signUpWithGoogle = async () => {
+    toast.promise(signInWithProvider('google'), {
+      error: (error) => error,
+      loading: 'Creating user account...',
+      success: 'Signup via google successful.',
     });
   };
 
@@ -89,7 +97,7 @@ export const SignupForm = ({ className, ...props }: ComponentPropsWithoutRef<'di
                   <span className='bg-background text-muted-foreground relative z-10 px-2'>or continue with</span>
                 </div>
 
-                <Button className='w-full' variant='outline'>
+                <Button className='w-full' onClick={signUpWithGoogle} type='button' variant='outline'>
                   <GoogleIcon className='mr-1' />
                   <span> Signup with Google</span>
                 </Button>

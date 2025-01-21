@@ -15,7 +15,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '$/components/ui/form';
 import { Input } from '$/components/ui/input';
 import { cn } from '$/lib/utils';
-import { signInWithEmail } from '$/services/supabase/authentication';
+import { signInWithEmail, signInWithProvider } from '$/services/supabase/authentication';
 
 const loginFormSchema = z.object({
   email: z.string({ required_error: 'Required' }).email({ message: 'Invalid email format' }),
@@ -34,6 +34,17 @@ export const LoginForm = ({ className, ...props }: ComponentPropsWithoutRef<'div
 
   const onSubmit = async ({ email, password }: LoginFormPayload) => {
     toast.promise(signInWithEmail(email, password), {
+      error: (error) => error,
+      loading: 'Signing in...',
+      success: () => {
+        router.push('/');
+        return 'Successfully signed in.';
+      },
+    });
+  };
+
+  const loginWithGoogle = async () => {
+    toast.promise(signInWithProvider('google'), {
       error: (error) => error,
       loading: 'Signing in...',
       success: () => {
@@ -100,7 +111,7 @@ export const LoginForm = ({ className, ...props }: ComponentPropsWithoutRef<'div
                   <span className='bg-background text-muted-foreground relative z-10 px-2'>or continue with</span>
                 </div>
 
-                <Button className='w-full' variant='outline'>
+                <Button className='w-full' onClick={loginWithGoogle} type='button' variant='outline'>
                   <GoogleIcon className='mr-1' />
                   <span> Login with Google</span>
                 </Button>
